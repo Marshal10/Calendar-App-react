@@ -31,6 +31,8 @@ function CalendarApp() {
   const [eventTime, setEventTime] = useState({ hours: "00", minutes: "00" });
   const [eventText, setEventText] = useState("");
 
+  const [editingEvent, setEditingEvent] = useState(null);
+
   const numDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
 
@@ -73,25 +75,43 @@ function CalendarApp() {
 
   function handleAddEvent() {
     const newEvent = {
-      id: Date.now(),
+      id: editingEvent ? editingEvent.id : Date.now(),
       eventFormattedDate: `${selectedDate.getDate()}-${selectedDate.getMonth()}-${selectedDate.getFullYear()}`,
       date: selectedDate,
       time: eventTime,
       text: eventText,
     };
 
-    const updatedEvents = [...events, newEvent];
+    let updatedEvents = [...events];
+
+    if (editingEvent) {
+      updatedEvents = updatedEvents.map((event) =>
+        event.id === editingEvent.id ? newEvent : event
+      );
+    } else {
+      updatedEvents.push(newEvent);
+    }
+
     updatedEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
 
     setEvents(updatedEvents);
     setEventTime({ hours: "00", minutes: "00" });
     setEventText("");
     setShowEventPopup(false);
+    setEditingEvent(null);
   }
 
   function handleDeleteEvent(id) {
     const updatedEvents = events.filter((event) => event.id !== id);
     setEvents(updatedEvents);
+  }
+
+  function updateEvent(event) {
+    setSelectedDate(new Date(event.date));
+    setEventTime(event.time);
+    setEventText(event.text);
+    setEditingEvent(event);
+    setShowEventPopup(true);
   }
 
   const eventDates = events.map((event) => event.eventFormattedDate);
@@ -192,7 +212,10 @@ function CalendarApp() {
             </div>
             <div className="event-text">{event.text}</div>
             <div className="event-buttons">
-              <i className="bx bxs-edit-alt"></i>
+              <i
+                className="bx bxs-edit-alt"
+                onClick={() => updateEvent(event)}
+              ></i>
               <i
                 className="bx bxs-message-alt-x"
                 onClick={() => handleDeleteEvent(event.id)}
