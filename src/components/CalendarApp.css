@@ -102,6 +102,10 @@
   cursor: pointer;
   text-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
+.event-day {
+  background-color: #00a3ff;
+  box-shadow: 0 0 1.5rem 1rem rgba(46, 142, 158, 0.3);
+}
 
 .current-day {
   background-color: #ef9011;

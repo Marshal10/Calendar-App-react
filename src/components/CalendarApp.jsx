@@ -74,6 +74,7 @@ function CalendarApp() {
   function handleAddEvent() {
     const newEvent = {
       id: Date.now(),
+      eventFormattedDate: `${selectedDate.getDate()}-${selectedDate.getMonth()}-${selectedDate.getFullYear()}`,
       date: selectedDate,
       time: eventTime,
       text: eventText,
@@ -87,6 +88,8 @@ function CalendarApp() {
     setEventText("");
     setShowEventPopup(false);
   }
+
+  const eventDates = events.map((event) => event.eventFormattedDate);
 
   return (
     <div className="calendar-app">
@@ -112,13 +115,17 @@ function CalendarApp() {
           {[...Array(numDaysInMonth).keys()].map((day) => (
             <span
               key={day + 1}
-              className={
+              className={`${
                 day + 1 === currentDate.getDate() &&
                 currentMonth === currentDate.getMonth() &&
                 currentYear === currentDate.getFullYear()
                   ? "current-day"
                   : ""
-              }
+              }${
+                eventDates.includes(`${day + 1}-${currentMonth}-${currentYear}`)
+                  ? " event-day"
+                  : ""
+              }`}
               onClick={() => handleSelectDate(day + 1)}
             >
               {day + 1}
