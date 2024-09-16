@@ -89,6 +89,11 @@ function CalendarApp() {
     setShowEventPopup(false);
   }
 
+  function handleDeleteEvent(id) {
+    const updatedEvents = events.filter((event) => event.id !== id);
+    setEvents(updatedEvents);
+  }
+
   const eventDates = events.map((event) => event.eventFormattedDate);
 
   return (
@@ -188,7 +193,10 @@ function CalendarApp() {
             <div className="event-text">{event.text}</div>
             <div className="event-buttons">
               <i className="bx bxs-edit-alt"></i>
-              <i className="bx bxs-message-alt-x"></i>
+              <i
+                className="bx bxs-message-alt-x"
+                onClick={() => handleDeleteEvent(event.id)}
+              ></i>
             </div>
           </div>
         ))}
