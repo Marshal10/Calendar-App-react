@@ -26,7 +26,16 @@ function CalendarApp() {
   const numDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
 
-  console.log(daysInWeek[firstDayOfMonth]);
+  function goToPrevMonth() {
+    setCurrentMonth((m) => (m === 0 ? 11 : m - 1));
+    setCurrentYear((y) => (currentMonth === 0 ? y - 1 : y));
+  }
+
+  function goToNextMonth() {
+    setCurrentMonth((m) => (m === 11 ? 0 : m + 1));
+    setCurrentYear((y) => (currentMonth === 11 ? y + 1 : y));
+  }
+
   return (
     <div className="calendar-app">
       <div className="calendar">
@@ -35,8 +44,8 @@ function CalendarApp() {
           <h2 className="month">{monthsInYear[currentMonth]}, </h2>
           <h2 className="year">{currentYear}</h2>
           <div className="buttons">
-            <i className="bx bx-chevron-left"></i>
-            <i className="bx bx-chevron-right"></i>
+            <i className="bx bx-chevron-left" onClick={goToPrevMonth}></i>
+            <i className="bx bx-chevron-right" onClick={goToNextMonth}></i>
           </div>
         </div>
         <div className="weekdays">
