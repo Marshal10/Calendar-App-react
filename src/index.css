@@ -20,3 +20,9 @@ html {
   place-items: center;
   perspective: 100rem;
 }
+
+@media (max-width: 500px) {
+  html {
+    font-size: 55%;
+  }
+}
