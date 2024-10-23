@@ -192,7 +192,7 @@ function CalendarApp() {
               }}
             ></textarea>
             <button className="event-popup-btn" onClick={handleAddEvent}>
-              Add Event
+              {editingEvent ? "Update Event" : "Add Event"}
             </button>
             <button
               className="close-event-popup"
